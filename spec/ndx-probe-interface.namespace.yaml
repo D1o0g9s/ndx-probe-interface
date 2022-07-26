@@ -1,0 +1,13 @@
+namespaces:
+- author:
+  - Geeling Chau
+  contact:
+  - gchau@caltech.edu
+  doc: An NWB extension to handle probe interface details used  in SpikeInterface
+  name: ndx-probe-interface
+  schema:
+  - namespace: core
+    neurodata_types:
+    - ElectricalSeries
+  - source: ndx-probe-interface.extensions.yaml
+  version: 0.1.0
