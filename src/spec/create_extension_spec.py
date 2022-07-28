@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import os.path
 
-from pynwb.spec import NWBNamespaceBuilder, export_spec, NWBGroupSpec, NWBAttributeSpec
+from pynwb.spec import NWBNamespaceBuilder, export_spec, NWBGroupSpec, NWBAttributeSpec, NWBDatasetSpec
 # TODO: import other spec classes as needed
 # from pynwb.spec import NWBDatasetSpec, NWBLinkSpec, NWBDtypeSpec, NWBRefSpec
 
@@ -22,27 +22,37 @@ def main():
     # to use your new data types.
     # all types included or used by the types specified here will also be
     # included.
-    ns_builder.include_type('ElectricalSeries', namespace='core')
+    ns_builder.include_type("Device", namespace="core")
 
     # TODO: define your new data types
     # see https://pynwb.readthedocs.io/en/latest/extensions.html#extending-nwb
     # for more information
-    tetrode_series = NWBGroupSpec(
-        neurodata_type_def='TetrodeSeries',
-        neurodata_type_inc='ElectricalSeries',
-        doc=('An extension of ElectricalSeries to include the tetrode ID for '
-             'each time series.'),
+
+    probe_planar_dataset = NWBDatasetSpec(
+        name="probe_planar_contour",
+        doc="The planar polygon that outlines the probe contour.",
+        dtype="float",
+        dims=[['num_points', 'x'], ['num_points', 'x, y'], ['num_points', 'x, y, z']],
+        shape=[[None,1], [None, 2], [None,3]],
         attributes=[
             NWBAttributeSpec(
-                name='trode_id',
-                doc='The tetrode ID.',
-                dtype='int32'
+                name='unit',
+                doc='Unit of measurement for probe_planar_contour specifications',
+                dtype='text',
+                default_value='um'
             )
-        ],
+        ]
+    )
+
+    probe_interface = NWBGroupSpec(
+        neurodata_type_def='Probe',
+        neurodata_type_inc='Device',
+        doc=('An extension of NWBData to include ProbeInterface details from SpikeInterface.'),
+        datasets=[probe_planar_dataset],
     )
 
     # TODO: add all of your new data types to this list
-    new_data_types = [tetrode_series]
+    new_data_types = [probe_interface]
 
     # export the spec to yaml files in the spec folder
     output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'spec'))

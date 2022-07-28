@@ -1,8 +1,28 @@
 groups:
-- neurodata_type_def: TetrodeSeries
-  neurodata_type_inc: ElectricalSeries
-  doc: An extension of ElectricalSeries to include the tetrode ID for each time series.
-  attributes:
-  - name: trode_id
-    dtype: int32
-    doc: The tetrode ID.
+- neurodata_type_def: Probe
+  neurodata_type_inc: Device
+  doc: An extension of NWBData to include ProbeInterface details from SpikeInterface.
+  datasets:
+  - name: probe_planar_contour
+    dtype: float
+    dims:
+    - - num_points
+      - x
+    - - num_points
+      - x, y
+    - - num_points
+      - x, y, z
+    shape:
+    - - null
+      - 1
+    - - null
+      - 2
+    - - null
+      - 3
+    doc: The planar polygon that outlines the probe contour.
+    attributes:
+    - name: unit
+      dtype: text
+      default_value: um
+      doc: Unit of measurement for probe_planar_contour specifications
+      required: false
