@@ -5,7 +5,8 @@ SpikeInterface outputs information about probes, including the probe_planar_cont
 ## Installation
 
 ```bash
-pip install ndx-probe-extension
+cd ndx-probe-interface
+pip install .
 ```
 
 
